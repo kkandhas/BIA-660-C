@@ -16,6 +16,10 @@ server_is_at = os.popen("curl icanhazip.com").read()
 
 @application.route('/slack', methods=['POST'])
 def inbound():
+# Adding a delay so that all bots don't answer at once (could overload the API).
+# This will randomly choose a value between 0 and 10 using a uniform distribution.
+    delay = random.uniform(0, 10)
+    time.sleep(delay)
     response = {'username': 'karan_bot', 'icon_emoji': ':robot_face:'}
     # if request.form.get('token') == SLACK_WEBHOOK_SECRET:
     channel = request.form.get('channel_name')
@@ -29,7 +33,7 @@ def inbound():
 
         # Task 1
         if str(text) == '&lt;BOTS_RESPOND&gt;' and username == 'zac.wentzell':
-            time.sleep(3)
+            
             response['text'] = 'Hello, my name is ' + my_chatbot_name + \
                                '. I belong to ' + owner_name + '. I live at ' + format(server_is_at)
         # Task 2 & 3
@@ -77,7 +81,7 @@ def inbound():
                            + z[len(z) - 1] + '.json'
 
             r = requests.get(api_str)
-            time.sleep(3)
+            
             r2 = requests.get(api_str2)
             tmp = r.json()
             tmp2 = r2.json()
