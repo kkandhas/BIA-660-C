@@ -263,6 +263,7 @@ def task_3_IQR(flight_data):
     ds = fl_data.sort_values(by='Price')
 
     ds['Price'].plot.box()
+    plt.title("Box Plot: ", fontsize=14, y=1.01)
     plt.savefig('task_3_IQR.png')
 
     Q1 = ds['Price'].quantile(0.25)
